@@ -84,14 +84,21 @@ public class FitbitFileReaderTest {
     @Test(expected = InvalidTraineeCoordinatesException.class)
     public void shouldThrowExceptionWhenTraineeCoordinatesAreInvalid()
             throws InvalidRowException, IOException, InvalidFileExtensionException {
-        File invalidFile = new File(getClass().getClassLoader().getResource("invalidTraineeCoordinates.txt").getFile());
+        File invalidFile = new File(getClass().getClassLoader().getResource("invalidTraineeCoordinates1.txt").getFile());
         fileReader.read(invalidFile.getAbsolutePath());
     }
 
     @Test(expected = InvalidTraineeMovementsException.class)
     public void shouldThrowExceptionWhenTraineeMovementsAreInvalid()
             throws InvalidRowException, IOException, InvalidFileExtensionException {
-        File invalidFile = new File(getClass().getClassLoader().getResource("invalidTraineeMovements.txt").getFile());
+        File invalidFile = new File(getClass().getClassLoader().getResource("invalidTraineeMovements1.txt").getFile());
+        fileReader.read(invalidFile.getAbsolutePath());
+    }
+
+    @Test(expected = InvalidTraineeMovementsException.class)
+    public void shouldThrowExceptionWhenTraineeMovementsAreMissing()
+            throws InvalidRowException, IOException, InvalidFileExtensionException {
+        File invalidFile = new File(getClass().getClassLoader().getResource("invalidTraineeMovements2.txt").getFile());
         fileReader.read(invalidFile.getAbsolutePath());
     }
 }
