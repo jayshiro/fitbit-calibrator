@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public class FitbitTool {
     private static final String ERR_INVALID_FILE_PARAM = "err.invalid.file.parameter";
+    private static final String ERR_FIELD_MISSING = "err.field.missing";
     private static final String OUT_TRAINEE_POSITION = "out.trainee.position";
 
     public static void main(String [] args) throws IOException, InvalidFileExtensionException, InvalidRowException {
@@ -21,6 +22,8 @@ public class FitbitTool {
         } else {
             process(args[0], configuration);
         }
+
+        System.out.println("#####Program has ended.#####");
     }
 
     private static void process(String filePath, Configuration configuration)
@@ -40,6 +43,8 @@ public class FitbitTool {
                                 String.valueOf(position.getY()),
                                 position.getDirection().getAlias()));
                     });
+        } else {
+            configuration.getPropertiesReader().getProperty(ERR_FIELD_MISSING);
         }
 
     }
