@@ -43,4 +43,23 @@ public class TraineeTest {
         assertEquals(position.getY(), 3);
         assertEquals(position.getDirection(), Direction.NORTH);
     }
+
+    @Test
+    public void shouldNotHaveTraineeMovePastFieldEdges() {
+        int limitX = 3, limitY = 3;
+
+        trainee.move(limitX, limitY);
+        trainee.move(limitX, limitY);
+        trainee.move(limitX, limitY);
+        Position position = trainee.getPosition();
+        assertEquals(position.getY(), 3);
+
+        trainee.left();
+        trainee.move(limitX, limitY);
+        trainee.move(limitX, limitY);
+        trainee.move(limitX, limitY);
+        position = trainee.getPosition();
+        assertEquals(position.getX(), 0);
+        assertEquals(position.getDirection(), Direction.WEST);
+    }
 }
