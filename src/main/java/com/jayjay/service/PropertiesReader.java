@@ -1,6 +1,7 @@
 package com.jayjay.service;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Properties;
 
 public class PropertiesReader {
@@ -13,6 +14,10 @@ public class PropertiesReader {
 
     public String getProperty(String name) {
         return properties.getProperty(name);
+    }
+
+    public String getProperty(String name, String... params) {
+        return MessageFormat.format(properties.getProperty(name), params);
     }
 
 }
