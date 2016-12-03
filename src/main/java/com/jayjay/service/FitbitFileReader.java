@@ -78,7 +78,7 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
                         if(trainee.willGoOver(trainee.getPosition().getX(), trainee.getPosition().getY(),
                                 field.getLimitX(), field.getLimitY())) {
                             throw new InvalidTraineeCoordinatesException(
-                                    propertiesReader.getProperty(ERR_INVALID_TRAINEE_OVER_FIELD_LIMIT));
+                                    propertiesReader.getProperty(ERR_INVALID_TRAINEE_OVER_FIELD_LIMIT, row));
                         }
                         field.addTrainee(trainee);
                     }
