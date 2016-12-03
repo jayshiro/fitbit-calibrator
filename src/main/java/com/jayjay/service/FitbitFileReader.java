@@ -44,12 +44,15 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
                     if(!hasReadUpperRightCoordinates) {
                         if(!upperRightCoordinatesValidator.isValid(row)) {
                             throw new InvalidUpperRightCoordinatesException(
-                                    propertiesReader.getProperty(ERR_INVALID_FIELD_COORDS));
+                                    propertiesReader.getProperty(ERR_INVALID_FIELD_COORDS, row));
+
                         }
                         setUpperRightCoordinates(field, row);
                         hasReadUpperRightCoordinates = true;
-                    }
 
+                    } else {
+
+                    }
                 }
             }
 
