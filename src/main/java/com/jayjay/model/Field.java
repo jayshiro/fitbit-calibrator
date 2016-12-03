@@ -1,6 +1,7 @@
 package com.jayjay.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Field implements Serializable{
@@ -9,7 +10,9 @@ public class Field implements Serializable{
     private int rightY;
     private List<Trainee> trainees;
 
-    public Field(){}
+    public Field(){
+        this.trainees = new ArrayList<>();
+    }
 
     public int getRightX() {
         return rightX;
@@ -33,5 +36,9 @@ public class Field implements Serializable{
 
     public void setTrainees(List<Trainee> trainees) {
         this.trainees = trainees;
+    }
+
+    public void addTrainee(Trainee trainee) {
+        trainees.add(trainee);
     }
 }
