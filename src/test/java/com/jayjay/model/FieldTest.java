@@ -11,7 +11,7 @@ public class FieldTest {
         Field field = new Field();
         field.setCoordinates("5 7");
 
-        assertEquals(field.getRightX(), 5);
-        assertEquals(field.getRightY(), 7);
+        assertEquals(field.getLimitX(), 5);
+        assertEquals(field.getLimitY(), 7);
     }
 }

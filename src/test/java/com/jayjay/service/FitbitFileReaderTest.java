@@ -68,8 +68,8 @@ public class FitbitFileReaderTest {
         Optional<Field> optField = fileReader.read(file.getAbsolutePath());
         Field field = optField.get();
 
-        assertEquals(field.getRightX(), 5);
-        assertEquals(field.getRightY(), 5);
+        assertEquals(field.getLimitX(), 5);
+        assertEquals(field.getLimitY(), 5);
     }
 
     @Test
@@ -111,8 +111,8 @@ public class FitbitFileReaderTest {
             throws InvalidRowException, IOException, InvalidFileExtensionException {
         Optional<Field> optField = fileReader.read(file.getAbsolutePath());
         Field field = optField.get();
-        assertEquals(field.getRightX(), 5);
-        assertEquals(field.getRightY(), 5);
+        assertEquals(field.getLimitX(), 5);
+        assertEquals(field.getLimitY(), 5);
 
         List<Trainee> trainees = field.getTrainees();
         assertEquals(trainees.size(), 2);
