@@ -41,4 +41,10 @@ public class Field implements Serializable{
     public void addTrainee(Trainee trainee) {
         trainees.add(trainee);
     }
+
+    public void setCoordinates(String coordinates) {
+        String [] strArray = coordinates.trim().split(" ");
+        this.rightX = Integer.parseInt(strArray[0]);
+        this.rightY = Integer.parseInt(strArray[1]);
+    }
 }
