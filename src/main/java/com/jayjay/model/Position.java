@@ -43,4 +43,12 @@ public class Position implements Serializable{
         this.y = Integer.parseInt(strArray[1]);
         this.direction = Direction.findByAlias(strArray[2]).get();
     }
+
+    public void addX(int val) {
+        this.x += val;
+    }
+
+    public void addY(int val) {
+        this.y += val;
+    }
 }
