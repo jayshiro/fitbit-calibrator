@@ -1,8 +1,9 @@
 package com.jayjay.service;
 
-import com.jayjay.exception.InvalidFileExtensionException;
-import com.jayjay.exception.InvalidUpperRightCoordinatesException;
+import com.jayjay.exception.*;
 import com.jayjay.model.Field;
+import com.jayjay.validation.TraineeCoordinatesValidator;
+import com.jayjay.validation.TraineeMovementsValidator;
 import com.jayjay.validation.UpperRightCoordinatesValidator;
 import com.jayjay.validation.Validator;
 import org.junit.Before;
@@ -24,39 +25,42 @@ public class FitbitFileReaderTest {
     public void setup() throws IOException {
         PropertiesReader propertiesReader = new PropertiesReader("messages.properties");
         Validator upperRightCoordinatesValidator = new UpperRightCoordinatesValidator();
+        Validator traineeCoordinatesValidator = new TraineeCoordinatesValidator();
+        Validator traineeMovementsValidator = new TraineeMovementsValidator();
 
-        fileReader = new FitbitFileReader(propertiesReader, upperRightCoordinatesValidator);
+        fileReader = new FitbitFileReader(propertiesReader, upperRightCoordinatesValidator,
+                traineeCoordinatesValidator, traineeMovementsValidator);
         file = new File(getClass().getClassLoader().getResource("sampleInput1.txt").getFile());
     }
 
     @Test
     public void shouldNotReturnNullWhenReadingFile()
-            throws InvalidFileExtensionException, IOException, InvalidUpperRightCoordinatesException {
+            throws InvalidFileExtensionException, IOException, InvalidRowException {
         assertNotNull(fileReader.read(file.getAbsolutePath()));
     }
 
     @Test
     public void shouldNotThrowIOExceptionWhenReadingFile()
-            throws InvalidFileExtensionException, IOException, InvalidUpperRightCoordinatesException {
+            throws InvalidFileExtensionException, IOException, InvalidRowException {
         fileReader.read(file.getAbsolutePath());
     }
 
     @Test(expected = InvalidFileExtensionException.class)
     public void shouldThrowExceptionWhenReadingNonTxtFile()
-            throws InvalidFileExtensionException, IOException, InvalidUpperRightCoordinatesException {
+            throws InvalidFileExtensionException, IOException, InvalidRowException {
         File invalidFile = new File(getClass().getClassLoader().getResource("sampleInput1.doc").getFile());
         fileReader.read(invalidFile.getAbsolutePath());
     }
 
     @Test
     public void shouldNotThrowInvalidFileExceptionWhenReadingTxtFile()
-            throws InvalidFileExtensionException, IOException, InvalidUpperRightCoordinatesException {
+            throws InvalidFileExtensionException, IOException, InvalidRowException {
         fileReader.read(file.getAbsolutePath());
     }
 
     @Test
     public void shouldReadTheUpperRightCoordinatesFromFileCorrectly()
-            throws InvalidFileExtensionException, IOException, InvalidUpperRightCoordinatesException {
+            throws InvalidFileExtensionException, IOException, InvalidRowException {
         Optional<Field> optField = fileReader.read(file.getAbsolutePath());
         Field field = optField.get();
 
@@ -66,13 +70,13 @@ public class FitbitFileReaderTest {
 
     @Test
     public void shouldProperlyValidateUpperRightCoordinates()
-            throws InvalidFileExtensionException, IOException, InvalidUpperRightCoordinatesException {
+            throws InvalidFileExtensionException, IOException, InvalidRowException {
         fileReader.read(file.getAbsolutePath());
     }
 
     @Test(expected = InvalidUpperRightCoordinatesException.class)
     public void shouldThrowExceptionWhenCoordinatesAreInvalid()
-            throws InvalidUpperRightCoordinatesException, IOException, InvalidFileExtensionException {
+            throws IOException, InvalidFileExtensionException, InvalidRowException {
         File invalidFile = new File(getClass().getClassLoader().getResource("sampleInput2.txt").getFile());
         fileReader.read(invalidFile.getAbsolutePath());
     }

@@ -1,7 +1,6 @@
 package com.jayjay.service;
 
-import com.jayjay.exception.InvalidFileExtensionException;
-import com.jayjay.exception.InvalidUpperRightCoordinatesException;
+import com.jayjay.exception.*;
 import com.jayjay.model.Field;
 import com.jayjay.validation.Validator;
 
@@ -14,19 +13,26 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
     private static final String ERR_FILE_EXTENSION = "err.file.invalid.extension";
     private static final String ERR_FILE_MISSING = "err.file.missing";
     private static final String ERR_INVALID_FIELD_COORDS = "err.invalid.field.coordinates";
+    private static final String ERR_INVALID_TRAINEE_COORDS = "err.invalid.trainee.coordinates";
+    private static final String ERR_INVALID_TRAINEE_MOVES = "err.invalid.trainee.movements";
 
     private PropertiesReader propertiesReader;
     private Validator upperRightCoordinatesValidator;
+    private Validator traineeCoordinatesValidator;
+    private Validator traineeMovementsValidator;
 
-    public FitbitFileReader(PropertiesReader propertiesReader, Validator upperRightCoordinatesValidator) {
+    public FitbitFileReader(PropertiesReader propertiesReader, Validator upperRightCoordinatesValidator,
+                            Validator traineeCoordinatesValidator, Validator traineeMovementsValidator) {
         this.propertiesReader = propertiesReader;
         this.upperRightCoordinatesValidator = upperRightCoordinatesValidator;
+        this.traineeCoordinatesValidator = traineeCoordinatesValidator;
+        this.traineeMovementsValidator = traineeMovementsValidator;
     }
 
 
     @Override
     public Optional<Field> read(String filePath)
-            throws InvalidFileExtensionException, IOException, InvalidUpperRightCoordinatesException {
+            throws InvalidFileExtensionException, IOException, InvalidRowException {
         Field field = new Field();
         Optional<Field> result = Optional.empty();
 
@@ -35,6 +41,7 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
         }
 
         String row = "";
+        String nextRow = "";
         boolean hasReadUpperRightCoordinates = false;
 
         try (java.io.FileReader fileReader = new java.io.FileReader(filePath)) {
@@ -51,6 +58,17 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
                         hasReadUpperRightCoordinates = true;
 
                     } else {
+                        if(!traineeCoordinatesValidator.isValid(row)) {
+                            throw new InvalidTraineeCoordinatesException(
+                                    propertiesReader.getProperty(ERR_INVALID_TRAINEE_COORDS, row));
+                        }
+
+                        nextRow = br.readLine();
+                        if(!traineeMovementsValidator.isValid(nextRow)) {
+                            throw new InvalidTraineeMovementsException(
+                                    propertiesReader.getProperty(ERR_INVALID_TRAINEE_MOVES, row));
+                        }
+
 
                     }
                 }
