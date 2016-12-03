@@ -1,7 +1,6 @@
 package com.jayjay.validator;
 
 import com.jayjay.validation.TraineeCoordinatesValidator;
-import com.jayjay.validation.UpperRightCoordinatesValidator;
 import com.jayjay.validation.Validator;
 import org.junit.Before;
 import org.junit.Test;

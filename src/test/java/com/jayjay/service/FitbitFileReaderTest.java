@@ -7,7 +7,7 @@ import com.jayjay.model.Position;
 import com.jayjay.model.Trainee;
 import com.jayjay.validation.TraineeCoordinatesValidator;
 import com.jayjay.validation.TraineeMovementsValidator;
-import com.jayjay.validation.UpperRightCoordinatesValidator;
+import com.jayjay.validation.FieldCoordinatesValidator;
 import com.jayjay.validation.Validator;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class FitbitFileReaderTest {
     @Before
     public void setup() throws IOException {
         PropertiesReader propertiesReader = new PropertiesReader("messages.properties");
-        Validator upperRightCoordinatesValidator = new UpperRightCoordinatesValidator();
+        Validator upperRightCoordinatesValidator = new FieldCoordinatesValidator();
         Validator traineeCoordinatesValidator = new TraineeCoordinatesValidator();
         Validator traineeMovementsValidator = new TraineeMovementsValidator();
 
