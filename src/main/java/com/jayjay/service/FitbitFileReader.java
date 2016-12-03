@@ -11,14 +11,15 @@ import java.util.Optional;
 
 public class FitbitFileReader implements FileReader<Optional<Field>>{
 
-    private static final String ERR_FILE_EXTENSION = "This program only accepts txt files.";
-    private static final String ERR_FILE_MISSING = "File is missing. Please provide correct file path.";
-    private static final String ERR_INVALID_FIELD_COORDS =
-            "You've set an invalid value for the upper-right coordinates of the field.";
+    private static final String ERR_FILE_EXTENSION = "err.file.invalid.extension";
+    private static final String ERR_FILE_MISSING = "err.file.missing";
+    private static final String ERR_INVALID_FIELD_COORDS = "err.invalid.field.coordinates";
 
+    private PropertiesReader propertiesReader;
     private Validator upperRightCoordinatesValidator;
 
-    public FitbitFileReader(Validator upperRightCoordinatesValidator) {
+    public FitbitFileReader(PropertiesReader propertiesReader, Validator upperRightCoordinatesValidator) {
+        this.propertiesReader = propertiesReader;
         this.upperRightCoordinatesValidator = upperRightCoordinatesValidator;
     }
 
@@ -30,7 +31,7 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
         Optional<Field> result = Optional.empty();
 
         if(!hasValidFileExtension(filePath)) {
-            throw new InvalidFileExtensionException(ERR_FILE_EXTENSION);
+            throw new InvalidFileExtensionException(propertiesReader.getProperty(ERR_FILE_EXTENSION));
         }
 
         String row = "";
@@ -42,7 +43,8 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
 
                     if(!hasReadUpperRightCoordinates) {
                         if(!upperRightCoordinatesValidator.isValid(row)) {
-                            throw new InvalidUpperRightCoordinatesException(ERR_INVALID_FIELD_COORDS);
+                            throw new InvalidUpperRightCoordinatesException(
+                                    propertiesReader.getProperty(ERR_INVALID_FIELD_COORDS));
                         }
                         setUpperRightCoordinates(field, row);
                         hasReadUpperRightCoordinates = true;
@@ -54,7 +56,7 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
             result = Optional.of(field);
 
         } catch (IOException e) {
-            throw new IOException(ERR_FILE_MISSING);
+            throw new IOException(propertiesReader.getProperty(ERR_FILE_MISSING));
         }
 
         return result;

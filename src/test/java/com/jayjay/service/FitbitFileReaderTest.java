@@ -21,10 +21,11 @@ public class FitbitFileReaderTest {
     private File file;
 
     @Before
-    public void setup() {
+    public void setup() throws IOException {
+        PropertiesReader propertiesReader = new PropertiesReader("messages.properties");
         Validator upperRightCoordinatesValidator = new UpperRightCoordinatesValidator();
 
-        fileReader = new FitbitFileReader(upperRightCoordinatesValidator);
+        fileReader = new FitbitFileReader(propertiesReader, upperRightCoordinatesValidator);
         file = new File(getClass().getClassLoader().getResource("sampleInput1.txt").getFile());
     }
 
