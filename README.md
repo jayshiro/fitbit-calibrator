@@ -40,7 +40,7 @@ MRMRLLMMRLRLRLRLRLRMMMMMRRR
 ```
 
 ##### Assumptions
-1. The initial position of the trainee is always inside the soccer field. 
-2. Two or more trainees can occupy the same coordinates inside the soccer field.
+1. Two or more trainees can occupy the same coordinates inside the soccer field.
+2. Initial placement of a Trainee must alway fall within the bounds of the soccer field.
 3. Trainees can't go past the edges of the soccer field. Move commands will be ignored.
 4. All alphabets inside the input file must be of uppercase letters.
