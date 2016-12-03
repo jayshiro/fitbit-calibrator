@@ -9,6 +9,10 @@ public class Position implements Serializable{
 
     public Position() {}
 
+    public Position(String position) {
+        setPosition(position);
+    }
+
     public int getX() {
         return x;
     }
@@ -31,5 +35,12 @@ public class Position implements Serializable{
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    private void setPosition(String position) {
+        String [] strArray = position.trim().split(" ");
+        this.x = Integer.parseInt(strArray[0]);
+        this.y = Integer.parseInt(strArray[1]);
+        this.direction = Direction.findByAlias(strArray[2]).get();
     }
 }
