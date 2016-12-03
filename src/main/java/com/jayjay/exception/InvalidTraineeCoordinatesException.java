@@ -1,6 +1,6 @@
 package com.jayjay.exception;
 
-public class InvalidTraineeCoordinatesException extends Exception{
+public class InvalidTraineeCoordinatesException extends InvalidRowException{
     public InvalidTraineeCoordinatesException(String message) {
         super(message);
     }
