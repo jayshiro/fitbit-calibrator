@@ -16,6 +16,7 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
     private static final String ERR_FILE_MISSING = "err.file.missing";
     private static final String ERR_MISSING_FIELD_COORDS = "err.missing.field.coordinates";
     private static final String ERR_INVALID_FIELD_COORDS = "err.invalid.field.coordinates";
+    private static final String ERR_INVALID_TRAINEE_OVER_FIELD_LIMIT = "err.invalid.trainee.over.field.limit";
     private static final String ERR_INVALID_TRAINEE_COORDS = "err.invalid.trainee.coordinates";
     private static final String ERR_INVALID_TRAINEE_MOVES = "err.invalid.trainee.movements";
     private static final String ERR_TRAINEES_MISSING = "err.trainees.missing";
@@ -73,7 +74,13 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
                                     propertiesReader.getProperty(ERR_INVALID_TRAINEE_MOVES, nextRow));
                         }
 
-                        field.addTrainee(new Trainee(new Position(row), nextRow));
+                        Trainee trainee = new Trainee(new Position(row), nextRow);
+                        if(trainee.willGoOver(trainee.getPosition().getX(), trainee.getPosition().getY(),
+                                field.getLimitX(), field.getLimitY())) {
+                            throw new InvalidTraineeCoordinatesException(
+                                    propertiesReader.getProperty(ERR_INVALID_TRAINEE_OVER_FIELD_LIMIT));
+                        }
+                        field.addTrainee(trainee);
                     }
                 }
             }

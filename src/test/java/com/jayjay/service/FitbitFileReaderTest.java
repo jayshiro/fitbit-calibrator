@@ -137,4 +137,12 @@ public class FitbitFileReaderTest {
         File invalidFile = new File(getClass().getClassLoader().getResource("invalidTraineesMissing.txt").getFile());
         fileReader.read(invalidFile.getAbsolutePath());
     }
+
+    @Test(expected = InvalidTraineeCoordinatesException.class)
+    public void shouldThrowExceptionWhenTraineeIsPlacedPastFieldLimit()
+            throws InvalidRowException, IOException, InvalidFileExtensionException {
+        File invalidFile = new File(
+                getClass().getClassLoader().getResource("invalidTraineeOverFieldLimit1.txt").getFile());
+        fileReader.read(invalidFile.getAbsolutePath());
+    }
 }
