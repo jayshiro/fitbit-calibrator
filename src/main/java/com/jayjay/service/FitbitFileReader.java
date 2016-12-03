@@ -14,6 +14,7 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
 
     private static final String ERR_FILE_EXTENSION = "err.file.invalid.extension";
     private static final String ERR_FILE_MISSING = "err.file.missing";
+    private static final String ERR_MISSING_FIELD_COORDS = "err.missing.field.coordinates";
     private static final String ERR_INVALID_FIELD_COORDS = "err.invalid.field.coordinates";
     private static final String ERR_INVALID_TRAINEE_COORDS = "err.invalid.trainee.coordinates";
     private static final String ERR_INVALID_TRAINEE_MOVES = "err.invalid.trainee.movements";
@@ -45,20 +46,20 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
 
         String row = "";
         String nextRow = "";
-        boolean hasReadUpperRightCoordinates = false;
+        boolean hasReadFieldCoordinates = false;
 
         try (java.io.FileReader fileReader = new java.io.FileReader(filePath)) {
             try (BufferedReader br = new BufferedReader(fileReader)) {
                 while ((row = br.readLine()) != null) {
 
-                    if(!hasReadUpperRightCoordinates) {
+                    if(!hasReadFieldCoordinates) {
                         if(!upperRightCoordinatesValidator.isValid(row)) {
-                            throw new InvalidUpperRightCoordinatesException(
+                            throw new InvalidFieldCoordinatesException(
                                     propertiesReader.getProperty(ERR_INVALID_FIELD_COORDS, row));
 
                         }
                         field.setCoordinates(row);
-                        hasReadUpperRightCoordinates = true;
+                        hasReadFieldCoordinates = true;
 
                     } else {
                         if(!traineeCoordinatesValidator.isValid(row)) {
@@ -69,7 +70,7 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
                         nextRow = br.readLine();
                         if(!traineeMovementsValidator.isValid(nextRow)) {
                             throw new InvalidTraineeMovementsException(
-                                    propertiesReader.getProperty(ERR_INVALID_TRAINEE_MOVES, row));
+                                    propertiesReader.getProperty(ERR_INVALID_TRAINEE_MOVES, nextRow));
                         }
 
                         field.addTrainee(new Trainee(new Position(row), nextRow));
@@ -78,7 +79,10 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
             }
 
             if(field.getTrainees().size() == 0) {
-                throw new InvalidTraineesMissingException(ERR_TRAINEES_MISSING);
+                if(!hasReadFieldCoordinates) {
+                    throw new InvalidFieldCoordinatesException(propertiesReader.getProperty(ERR_MISSING_FIELD_COORDS));
+                }
+                throw new InvalidTraineesMissingException(propertiesReader.getProperty(ERR_TRAINEES_MISSING));
             }
 
             result = Optional.of(field);

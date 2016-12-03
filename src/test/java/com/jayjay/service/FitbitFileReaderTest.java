@@ -78,7 +78,7 @@ public class FitbitFileReaderTest {
         fileReader.read(file.getAbsolutePath());
     }
 
-    @Test(expected = InvalidUpperRightCoordinatesException.class)
+    @Test(expected = InvalidFieldCoordinatesException.class)
     public void shouldThrowExceptionWhenCoordinatesAreInvalid()
             throws IOException, InvalidFileExtensionException, InvalidRowException {
         File invalidFile = new File(getClass().getClassLoader().getResource("sampleInput2.txt").getFile());
