@@ -17,6 +17,7 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
     private static final String ERR_INVALID_FIELD_COORDS = "err.invalid.field.coordinates";
     private static final String ERR_INVALID_TRAINEE_COORDS = "err.invalid.trainee.coordinates";
     private static final String ERR_INVALID_TRAINEE_MOVES = "err.invalid.trainee.movements";
+    private static final String ERR_TRAINEES_MISSING = "err.trainees.missing";
 
     private PropertiesReader propertiesReader;
     private Validator upperRightCoordinatesValidator;
@@ -74,6 +75,10 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
                         field.addTrainee(new Trainee(new Position(row), nextRow));
                     }
                 }
+            }
+
+            if(field.getTrainees().size() == 0) {
+                throw new InvalidTraineesMissingException(ERR_TRAINEES_MISSING);
             }
 
             result = Optional.of(field);

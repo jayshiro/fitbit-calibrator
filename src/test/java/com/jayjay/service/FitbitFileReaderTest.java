@@ -130,4 +130,11 @@ public class FitbitFileReaderTest {
         assertEquals(position2.getDirection(), Direction.EAST);
         assertEquals(trainee2.getMovements(), "MMRMMRMRRM");
     }
+
+    @Test(expected = InvalidTraineesMissingException.class)
+    public void shouldThrowExceptionWhenThereAreNoTrainees()
+            throws InvalidRowException, IOException, InvalidFileExtensionException {
+        File invalidFile = new File(getClass().getClassLoader().getResource("invalidTraineesMissing.txt").getFile());
+        fileReader.read(invalidFile.getAbsolutePath());
+    }
 }
