@@ -9,9 +9,11 @@ public class TraineeMovementsValidator implements Validator {
 
     @Override
     public boolean isValid(String str) {
-        Matcher matcher = PATTERN.matcher(str);
-        if(matcher.find()) {
-            return true;
+        if(str != null) {
+            Matcher matcher = PATTERN.matcher(str);
+            if (matcher.find()) {
+                return true;
+            }
         }
         return false;
     }
