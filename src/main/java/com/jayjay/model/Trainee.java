@@ -60,22 +60,22 @@ public class Trainee implements Serializable{
         int y = position.getY();
         switch (position.getDirection()) {
             case NORTH:
-                if(!willFallOver(x, y+1, limitX, limitY)) {
+                if(!willGoOver(x, y+1, limitX, limitY)) {
                     position.addY(1);
                 }
                 break;
             case WEST:
-                if(!willFallOver(x-1, y, limitX, limitY)) {
+                if(!willGoOver(x-1, y, limitX, limitY)) {
                     position.addX(-1);
                 }
                 break;
             case SOUTH:
-                if(!willFallOver(x, y-1, limitX, limitY)) {
+                if(!willGoOver(x, y-1, limitX, limitY)) {
                     position.addY(-1);
                 }
                 break;
             case EAST:
-                if(!willFallOver(x+1, y, limitX, limitY)) {
+                if(!willGoOver(x+1, y, limitX, limitY)) {
                     position.addX(1);
                 }
                 break;
@@ -83,7 +83,7 @@ public class Trainee implements Serializable{
 
     }
 
-    private boolean willFallOver(int newX, int newY, int limitX, int limitY) {
+    public boolean willGoOver(int newX, int newY, int limitX, int limitY) {
         return ((newX > limitX || newX < 0) || (newY > limitY || newY < 0)) ? true : false;
     }
 }
