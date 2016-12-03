@@ -24,4 +24,23 @@ public class TraineeTest {
         trainee.right();
         assertEquals(trainee.getPosition().getDirection(), Direction.EAST);
     }
+
+    @Test
+    public void shouldMoveProperly() {
+        int limitX = 4, limitY = 4;
+
+        trainee.right();
+        trainee.move(limitX, limitY);
+        Position position = trainee.getPosition();
+        assertEquals(position.getX(), 2);
+        assertEquals(position.getY(), 2);
+        assertEquals(position.getDirection(), Direction.EAST);
+
+        trainee.left();
+        trainee.move(limitX, limitY);
+        position = trainee.getPosition();
+        assertEquals(position.getX(), 2);
+        assertEquals(position.getY(), 3);
+        assertEquals(position.getDirection(), Direction.NORTH);
+    }
 }
