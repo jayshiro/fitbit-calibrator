@@ -80,4 +80,18 @@ public class FitbitFileReaderTest {
         File invalidFile = new File(getClass().getClassLoader().getResource("sampleInput2.txt").getFile());
         fileReader.read(invalidFile.getAbsolutePath());
     }
+
+    @Test(expected = InvalidTraineeCoordinatesException.class)
+    public void shouldThrowExceptionWhenTraineeCoordinatesAreInvalid()
+            throws InvalidRowException, IOException, InvalidFileExtensionException {
+        File invalidFile = new File(getClass().getClassLoader().getResource("invalidTraineeCoordinates.txt").getFile());
+        fileReader.read(invalidFile.getAbsolutePath());
+    }
+
+    @Test(expected = InvalidTraineeMovementsException.class)
+    public void shouldThrowExceptionWhenTraineeMovementsAreInvalid()
+            throws InvalidRowException, IOException, InvalidFileExtensionException {
+        File invalidFile = new File(getClass().getClassLoader().getResource("invalidTraineeMovements.txt").getFile());
+        fileReader.read(invalidFile.getAbsolutePath());
+    }
 }
