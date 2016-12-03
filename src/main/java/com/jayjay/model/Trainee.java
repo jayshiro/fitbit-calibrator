@@ -8,6 +8,11 @@ public class Trainee implements Serializable{
 
     public Trainee() {}
 
+    public Trainee(Position position, String movements) {
+        this.position = position;
+        this.movements = movements;
+    }
+
     public Position getPosition() {
         return position;
     }

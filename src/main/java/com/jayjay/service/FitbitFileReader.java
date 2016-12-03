@@ -2,6 +2,8 @@ package com.jayjay.service;
 
 import com.jayjay.exception.*;
 import com.jayjay.model.Field;
+import com.jayjay.model.Position;
+import com.jayjay.model.Trainee;
 import com.jayjay.validation.Validator;
 
 import java.io.BufferedReader;
@@ -54,7 +56,7 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
                                     propertiesReader.getProperty(ERR_INVALID_FIELD_COORDS, row));
 
                         }
-                        setUpperRightCoordinates(field, row);
+                        field.setCoordinates(row);
                         hasReadUpperRightCoordinates = true;
 
                     } else {
@@ -69,7 +71,7 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
                                     propertiesReader.getProperty(ERR_INVALID_TRAINEE_MOVES, row));
                         }
 
-
+                        field.addTrainee(new Trainee(new Position(row), nextRow));
                     }
                 }
             }
@@ -91,11 +93,5 @@ public class FitbitFileReader implements FileReader<Optional<Field>>{
             }
         }
         return false;
-    }
-
-    private void setUpperRightCoordinates(Field field, String row) {
-        String [] strArray = row.split(" ");
-        field.setRightX(Integer.parseInt(strArray[0]));
-        field.setRightY(Integer.parseInt(strArray[1]));
     }
 }
